@@ -1,6 +1,8 @@
 <!-- display products -->
 {% extends 'base.html' %}
+{% load static %}
 {% block body_block %}
+
 
 {% if user.is_authenticated and user.account_type == "Seller" %}
     <center>
@@ -9,54 +11,53 @@
     </center>
 {% endif %}
 
-<!-- "my-5" is for margin-->
-<div class="conatiner my-5">
+<div class="container my-5">
     <h2 class="my-5">Featured Products</h2>
     <div class='row'>
-        {% comment %} NOTE: ListView e context hisebe object_name set na korle by default 'object_list' name edata pass hy template e {% endcomment %}
-        {% for product in object_list %}
-
-            <!--
-                # screen size md==medium hole screen 2 part
-                # small hole 1 part
-                # large hole 3 part
-                e vag hbe
-            -->
+        {% for product in page_obj %}
             <div class="col-md-6 col-sm-12 col-lg-3">
-                {% comment %} base.html e css code ache for the classes {% endcomment %}
                 <figure class="card card-product">
                     <div class="img-wrap">
-                        <img src="/media/{{product.mainimage}}" style="width:100%; height:300px">
+                        <img src="/media/{{ product.mainimage }}" style="width:100%; height:300px">
                     </div>
                     <figcaption class="info-wrap">
-
                         <h6 class="title">
-                            <a href="{% url 'App_Shop:product_detail' pk=product.pk %}">{{product.name}}</a>
+                            <a href="{% url 'App_Shop:product_detail' pk=product.pk %}">{{ product.name }}</a>
                         </h6>
                         <div class="action-wrap">
                             <div class="price-wrap h5">
-                                <!--
-                                    html e TK. er code= &#2547;
-                                    floatformat:2== 2 decimal point porjnto show
-                                -->
-                                <span class="price-new">&#2547; {{product.price|floatformat:2}}</span>
+                                <span class="price-new">&#2547; {{ product.price|floatformat:2 }}</span>
                                 <span class="price-old">
-                                    {% comment %} <strike> means old price kete dbe {% endcomment %}
-                                    <strike>
-                                        &#2547; {{product.old_price|floatformat:2}}
-                                    </strike>
+                                    <strike>&#2547; {{ product.old_price|floatformat:2 }}</strike>
                                 </span>
                             </div>
                         </div>
-
                     </figcaption>
                 </figure>
             </div>
-
         {% endfor %}
-
     </div>
-</div>
+    <br/>
+    
+    {% comment %} pagination buttons {% endcomment %}
+    <style>
+        .pagination_btn {
+            margin: 10px;
+        }
+        
+    </style>
+    <center>  
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn btn-primary btn-lg pagination_btn">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary btn-lg pagination_btn">Previous</a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary btn-lg pagination_btn">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary btn-lg pagination_btn">Last</a>
+            {% endif %}     
+    </center>
+ 
 
+</div>
 
 {% endblock %}

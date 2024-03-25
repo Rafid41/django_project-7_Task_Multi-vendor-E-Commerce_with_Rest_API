@@ -15,6 +15,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from App_Shop.forms import AddProductForm
 from django.contrib.auth.decorators import login_required
 
+# product per page
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -23,6 +25,16 @@ from django.contrib.auth.decorators import login_required
 class Home(ListView):
     model = Product
     template_name = "App_Shop/home.html"
+    paginate_by = 12  # Number of products per page
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = Product.objects.all()
+        paginator = Paginator(products, self.paginate_by)
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context["page_obj"] = page_obj
+        return context
 
 
 class ProductDetail(LoginRequiredMixin, DetailView):
