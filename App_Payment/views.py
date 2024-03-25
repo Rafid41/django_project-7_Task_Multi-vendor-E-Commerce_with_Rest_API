@@ -1,14 +1,14 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import messages
 from django.urls import reverse
+from django.utils import timezone
+from api.models import DailyData
 
 # models and forms
 from App_Order.models import Order, Cart, Coupon
 from App_Payment.forms import BillingAddress, BillingForm, CollectCouponForm
 
 from django.contrib.auth.decorators import login_required
-
-
 from decimal import Decimal
 import uuid
 
@@ -110,6 +110,22 @@ def payment(request):
 
     if coupon_percentise > 0:
         order_total = order_total - ((order_total * coupon_percentise) / 100)
+
+    ######################## update daily data ###############################
+    current_date = timezone.now().date()
+
+    # Get or create DailyData object for the current date
+    daily_data, created = DailyData.objects.get_or_create(date_data=current_date)
+
+    # same date
+    if not created:
+        daily_data.revenue += order_total
+        daily_data.save()
+
+    else:
+        # new date
+        daily_data.revenue = order_total
+        daily_data.save()
 
     return complete(request)
 
