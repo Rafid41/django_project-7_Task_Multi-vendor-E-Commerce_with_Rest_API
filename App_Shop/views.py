@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView
 
 # Models
 from App_Shop.models import Product
+from api.models import DailyData
 
 # Mixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 
 # product per page
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import user_passes_test
 
 # Create your views here.
 
@@ -57,3 +59,11 @@ def add_product(request):
             return HttpResponseRedirect(reverse("App_Shop:home"))
 
     return render(request, "App_Shop/add_product.html", context={"form": form})
+
+
+# view daily data if superuser
+@user_passes_test(lambda u: u.is_superuser)
+def daily_data_view(request):
+    daily_data = DailyData.objects.all()
+
+    return render(request, "App_Shop/daily_data.html", {"daily_data": daily_data})

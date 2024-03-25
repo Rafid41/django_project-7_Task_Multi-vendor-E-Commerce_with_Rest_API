@@ -8,6 +8,7 @@ from .views import (
     CartViewSet,
     ProfileViewSet,
     DailyDataViewSet,
+    BillingAddressViewSet,
 )
 
 # default view
@@ -24,6 +25,7 @@ router.register(r"products", ProductViewSet, basename="products")
 router.register(r"carts", CartViewSet, basename="cart")
 router.register(r"orders", OrderViewSet, basename="orders")
 router.register(r"dailydata", DailyDataViewSet, basename="dailydata")
+router.register(r"billing_address", BillingAddressViewSet, basename="billing_address")
 
 
 urlpatterns = [

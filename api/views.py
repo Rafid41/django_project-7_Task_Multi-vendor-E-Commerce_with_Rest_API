@@ -13,6 +13,7 @@ from .serializers import (
     CartSerializer,
     OrderSerializer,
     DailyDataSerializer,
+    BillingAddressSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -81,3 +82,8 @@ class OrderViewSet(viewsets.ModelViewSet):
 class DailyDataViewSet(viewsets.ModelViewSet):
     queryset = DailyData.objects.all()
     serializer_class = DailyDataSerializer
+
+
+class BillingAddressViewSet(viewsets.ModelViewSet):
+    queryset = BillingAddress.objects.all()
+    serializer_class = BillingAddressSerializer

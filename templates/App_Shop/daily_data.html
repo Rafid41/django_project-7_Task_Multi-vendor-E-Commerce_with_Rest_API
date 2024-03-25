@@ -1,0 +1,23 @@
+<!-- display daily data -->
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+    <br/>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Revenue</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in daily_data %}
+            <tr>
+                <td>{{ data.date_data }}</td>
+                <td>{{ data.revenue }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  
+{% endblock %}

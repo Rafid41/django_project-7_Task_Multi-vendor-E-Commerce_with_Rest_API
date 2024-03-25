@@ -4,12 +4,22 @@
 {% block body_block %}
 
 
-{% if user.is_authenticated and user.account_type == "Seller" %}
-    <center>
-        <h5><p style="color:orange">Give advertise of your product</p>&nbsp;<a href="{% url 'App_Shop:add_product' %}" class="btn btn-primary">Advertise</a></h5>
-        
-    </center>
-{% endif %}
+
+<center style="display: flex; justify-content: space-evenly; align-items: center;">
+    <div>
+        {% if user.is_authenticated and user.account_type == "Seller" %}
+            <h5 style="color:orange">Give advertise of your product</h5>
+            <a href="{% url 'App_Shop:add_product' %}" class="btn btn-primary">Advertise</a>
+        {% endif %}
+    </div>
+    <div>
+        {% if user.is_superuser %}
+            <h5 style="color:red">SuperUser Previleges</h5>
+            <a href="{% url 'App_Shop:daily_data' %}" class="btn btn-primary">View Daily Data</a>
+        {% endif %}
+    </div>
+</center>
+
 
 <div class="container my-5">
     <h2 class="my-5">Featured Products</h2>

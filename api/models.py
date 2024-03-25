@@ -9,3 +9,6 @@ class DailyData(models.Model):
 
     def __str__(self):
         return f"Date: {self.date_data}, Revenue: {self.revenue}"
+
+    class Meta:
+        ordering = ["-date_data"]

@@ -61,3 +61,9 @@ class DailyDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = DailyData
         fields = "__all__"
+
+
+class BillingAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BillingAddress
+        fields = "__all__"
